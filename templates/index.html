@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roma Rakamları Dönüştürücü</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 hover:scale-105">
+        <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-8">
+            Roma Rakamları Dönüştürücü
+        </h1>
+
+        <form method="POST" class="space-y-6">
+            <div>
+                <label for="input_value" class="block text-lg font-medium text-gray-700 mb-2">
+                    Değer Girin (Sayı veya Roma Rakamı):
+                </label>
+                <input type="text" id="input_value" name="input_value"
+                       class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-lg"
+                       placeholder="Örn: 1994 veya MCMXCIV" required>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+                <button type="submit" name="convert_type" value="to_roman"
+                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-102 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 text-lg">
+                    Sayıdan Roma'ya Dönüştür
+                </button>
+                <button type="submit" name="convert_type" value="to_int"
+                        class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-102 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 text-lg">
+                    Roma'dan Sayıya Dönüştür
+                </button>
+            </div>
+        </form>
+
+        {% if result %}
+            <div class="mt-8 p-6 bg-green-50 border border-green-200 rounded-lg shadow-inner text-center">
+                <h2 class="text-2xl font-semibold text-green-800 mb-2">Sonuç:</h2>
+                <p class="text-3xl font-extrabold text-green-900">{{ result }}</p>
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="mt-8 p-6 bg-red-50 border border-red-200 rounded-lg shadow-inner text-center">
+                <h2 class="text-2xl font-semibold text-red-800 mb-2">Hata:</h2>
+                <p class="text-xl text-red-700">{{ error }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
