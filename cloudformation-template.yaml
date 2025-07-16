@@ -99,7 +99,7 @@ Resources:
 
         def int_to_roman(num):
             if not isinstance(num, int) or not (1 <= num <= 3999):
-                return "Geçersiz giriş. Lütfen 1 ile 3999 arasında bir tam sayı girin."
+                return "Invalid entry. Please enter an exact number between 1 and 3999."
             
             roman_numeral = ""
             for value, symbol in ROMAN_MAP:
@@ -110,7 +110,7 @@ Resources:
 
         def roman_to_int(roman_str):
             if not isinstance(roman_str, str):
-                return "Geçersiz giriş. Lütfen bir Roma rakamı dizisi girin."
+                return "Invalid entry. Please enter a Roman number."
             
             roman_str = roman_str.upper()
             total = 0
@@ -128,12 +128,12 @@ Resources:
                     total += ROMAN_VALUES[roman_str[i]]
                     i += 1
                 else:
-                    return "Geçersiz Roma rakamı formatı."
+                    return "Invalid Roman number format."
             
             if int_to_roman(total) == roman_str:
                 return total
             else:
-                return "Geçersiz Roma rakamı formatı."
+                return "Invalid Roman number format."
 
         @app.route('/', methods=['GET', 'POST'])
         def index():
@@ -144,20 +144,20 @@ Resources:
                 convert_type = request.form.get('convert_type')
 
                 if not input_value:
-                    error = "Lütfen bir değer girin."
+                    error = "Please enter a value."
                 else:
                     if convert_type == 'to_roman':
                         try:
                             num = int(input_value)
                             result = int_to_roman(num)
                         except ValueError:
-                            error = "Geçersiz sayı. Lütfen bir tam sayı girin."
+                            error = "Invalid entry. Please enter an exact number."
                     elif convert_type == 'to_int':
                         result = roman_to_int(input_value)
                     else:
-                        error = "Geçersiz dönüşüm tipi."
+                        error = "Invalid convertion type."
                 
-                if isinstance(result, str) and ("Geçersiz" in result or "Hata" in result):
+                if isinstance(result, str) and ("Invalid" in result or "Error" in result):
                     error = result
                     result = None
 
@@ -175,7 +175,7 @@ Resources:
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Roma Rakamları Dönüştürücü</title>
+            <title>Roman Numerals Converter</title>
             <script src="https://cdn.tailwindcss.com"></script>
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
             <style>
@@ -187,13 +187,13 @@ Resources:
         <body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex items-center justify-center p-4">
             <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 hover:scale-105">
                 <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-8">
-                    Roma Rakamları Dönüştürücü
+                    Roman Numerals Converter
                 </h1>
 
                 <form method="POST" class="space-y-6">
                     <div>
                         <label for="input_value" class="block text-lg font-medium text-gray-700 mb-2">
-                            Değer Girin (Sayı veya Roma Rakamı):
+                            Enter a value (Exact Number or Roman number):
                         </label>
                         <input type="text" id="input_value" name="input_value"
                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-lg"
@@ -203,11 +203,11 @@ Resources:
                     <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
                         <button type="submit" name="convert_type" value="to_roman"
                                 class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-102 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 text-lg">
-                            Sayıdan Roma'ya Dönüştür
+                            Convert Number to Roman Number
                         </button>
                         <button type="submit" name="convert_type" value="to_int"
                                 class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-102 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 text-lg">
-                            Roma'dan Sayıya Dönüştür
+                            Convert Roman Number to Exact Number
                         </button>
                     </div>
                 </form>
