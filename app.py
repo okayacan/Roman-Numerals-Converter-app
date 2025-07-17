@@ -3,8 +3,6 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# Roma rakamları için sözlükler
-# Sayıdan Roma'ya dönüşüm için büyükten küçüğe sıralı
 ROMAN_MAP = [
     (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),
     (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),
@@ -12,16 +10,16 @@ ROMAN_MAP = [
     (1, 'I')
 ]
 
-# Roma'dan sayıya dönüşüm için
+# Converter
 ROMAN_VALUES = {
     'I': 1, 'V': 5, 'X': 10, 'L': 50,
     'C': 100, 'D': 500, 'M': 1000
 }
 
 def int_to_roman(num):
-    """Bir tam sayıyı Roma rakamlarına dönüştürür."""
+    """Converts an integer to Roman numerals."""
     if not isinstance(num, int) or not (1 <= num <= 3999):
-        return "Geçersiz giriş. Lütfen 1 ile 3999 arasında bir tam sayı girin."
+        return "Invalid input. Please enter an integer between 1 and 3999."
     
     roman_numeral = ""
     for value, symbol in ROMAN_MAP:
@@ -31,15 +29,15 @@ def int_to_roman(num):
     return roman_numeral
 
 def roman_to_int(roman_str):
-    """Bir Roma rakamını tam sayıya dönüştürür."""
+    """Converts a Roman numeral to an integer."""
     if not isinstance(roman_str, str):
-        return "Geçersiz giriş. Lütfen bir Roma rakamı dizisi girin."
+        return "Invalid input. Please enter a sequence of Roman numerals."
     
     roman_str = roman_str.upper()
     total = 0
     i = 0
     while i < len(roman_str):
-        # İki karakterli özel durumları kontrol et (CM, CD, XC, XL, IX, IV)
+        # Check for two-character exceptions (CM, CD, XC, XL, IX, IV)
         if i + 1 < len(roman_str) and roman_str[i:i+2] in ["CM", "CD", "XC", "XL", "IX", "IV"]:
             if roman_str[i:i+2] == "CM": total += 900
             elif roman_str[i:i+2] == "CD": total += 400
@@ -54,11 +52,11 @@ def roman_to_int(roman_str):
         else:
             return "Geçersiz Roma rakamı formatı."
     
-    # Dönüşüm sonrası orijinal Roma rakamıyla tekrar kontrol et (geçerliliği sağlamak için)
+    # Check again with the original Roman numeral after conversion (to ensure validity))
     if int_to_roman(total) == roman_str:
         return total
     else:
-        return "Geçersiz Roma rakamı formatı."
+        return "Invalid Roman numeral format."
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -70,26 +68,26 @@ def index():
         convert_type = request.form.get('convert_type')
 
         if not input_value:
-            error = "Lütfen bir değer girin."
+            error = "Please enter a value."
         else:
             if convert_type == 'to_roman':
                 try:
                     num = int(input_value)
                     result = int_to_roman(num)
                 except ValueError:
-                    error = "Geçersiz sayı. Lütfen bir tam sayı girin."
+                    error = "Invalid number. Please enter an integer."
             elif convert_type == 'to_int':
                 result = roman_to_int(input_value)
             else:
-                error = "Geçersiz dönüşüm tipi."
+                error = "Invalid conversion type."
         
-        if isinstance(result, str) and ("Geçersiz" in result or "Hata" in result):
+        if isinstance(result, str) and (""Invalid" in result or "Error" in result):
             error = result
             result = None
 
     return render_template('index.html', result=result, error=error)
 
 if __name__ == '__main__':
-    # Gunicorn veya Nginx arkasında çalışırken bu kısım kullanılmaz.
-    # Sadece yerel testler için.
+    # This part is not used when running behind Gunicorn or Nginx.
+    # For local testing only.
     app.run(debug=True, host='0.0.0.0', port=5000)
