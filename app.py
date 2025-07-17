@@ -50,7 +50,7 @@ def roman_to_int(roman_str):
             total += ROMAN_VALUES[roman_str[i]]
             i += 1
         else:
-            return "Geçersiz Roma rakamı formatı."
+            return "Invalid Roman numeral format."
     
     # Check again with the original Roman numeral after conversion (to ensure validity))
     if int_to_roman(total) == roman_str:
