@@ -197,7 +197,7 @@ Resources:
                         </label>
                         <input type="text" id="input_value" name="input_value"
                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-lg"
-                               placeholder="Örn: 1994 veya MCMXCIV" required>
+                               placeholder="Example: 1994 veya MCMXCIV" required>
                     </div>
 
                     <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
